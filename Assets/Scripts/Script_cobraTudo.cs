@@ -1,9 +1,12 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Script_cobraTudo : MonoBehaviour
 {
     GameObject obj_adm;
     int direcao = 0;
+    bool direcaoMudarPode = true;
     [SerializeField] float moveSpeed;
     [SerializeField] float moveCd;
     [SerializeField] GameObject prefab_obj_cobraBloco;
@@ -13,6 +16,9 @@ public class Script_cobraTudo : MonoBehaviour
     [SerializeField] float[] blocoAndarPodeTempo;
     [SerializeField] int blocoTamanho;
     [SerializeField] float tempo;
+    [SerializeField] int comidaGanho;
+    [Space]
+    [SerializeField] Text txt_resultado;
 
     void Start()
     {
@@ -22,26 +28,32 @@ public class Script_cobraTudo : MonoBehaviour
 
     void Update()
     {
-        bool _direcaoMudou = false;
+        if (direcaoMudarPode)
+        {
+            bool _direcaoMudou = false;
 
-        if (Input.GetKeyDown(KeyCode.D) && direcao != 2)
-        {
-            _direcaoMudou = true;
-            direcao = 0;
-        }
-        if (Input.GetKeyDown(KeyCode.W) && !_direcaoMudou && direcao != 3)
-        {
-            _direcaoMudou = true;
-            direcao = 1;
-        }
-        if (Input.GetKeyDown(KeyCode.A) && !_direcaoMudou && direcao != 0)
-        {
-            _direcaoMudou = true;
-            direcao = 2;
-        }
-        if (Input.GetKeyDown(KeyCode.S) && !_direcaoMudou && direcao != 1)
-        {
-            direcao = 3;
+            if (Input.GetKeyDown(KeyCode.D) && direcao != 2)
+            {
+                _direcaoMudou = true;
+                direcao = 0;
+            }
+            if (Input.GetKeyDown(KeyCode.W) && !_direcaoMudou && direcao != 3)
+            {
+                _direcaoMudou = true;
+                direcao = 1;
+            }
+            if (Input.GetKeyDown(KeyCode.A) && !_direcaoMudou && direcao != 0)
+            {
+                _direcaoMudou = true;
+                direcao = 2;
+            }
+            if (Input.GetKeyDown(KeyCode.S) && !_direcaoMudou && direcao != 1)
+            {
+                _direcaoMudou = true;
+                direcao = 3;
+            }
+
+            if (_direcaoMudou) direcaoMudarPode = false;
         }
     }
 
@@ -81,6 +93,8 @@ public class Script_cobraTudo : MonoBehaviour
             }
         }
 
+        direcaoMudarPode = true;
+
         Invoke("Move", moveCd);
     }
 
@@ -88,13 +102,28 @@ public class Script_cobraTudo : MonoBehaviour
     {
         if (collision.CompareTag("Comida"))
         {
-            obj_bloco[blocoTamanho] = Instantiate(prefab_obj_cobraBloco, transform.position, Quaternion.identity);
-            blocoAndarPodeTempo[blocoTamanho] = tempo + blocoTamanho + 1;
+            for (int i = 0; i < comidaGanho; i++)
+            {
+                obj_bloco[blocoTamanho] = Instantiate(prefab_obj_cobraBloco, transform.position, Quaternion.identity);
+                blocoAndarPodeTempo[blocoTamanho] = tempo + blocoTamanho + 1;
 
-            blocoTamanho++;
+                blocoTamanho++;
+            }
 
             Destroy(collision.gameObject);
             obj_adm.GetComponent<Script_admGameTudo>().ObjComidaSpawn();
+
+            if (blocoTamanho == 664) Debug.Log("ganhou");
         }
+    }
+
+    public void Perdeu()
+    {
+        txt_resultado.text = "You Lose!";
+    }
+
+    public void SceneRestart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
