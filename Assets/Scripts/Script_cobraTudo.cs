@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class Script_cobraTudo : MonoBehaviour
 {
@@ -9,16 +7,15 @@ public class Script_cobraTudo : MonoBehaviour
     bool direcaoMudarPode = true;
     [SerializeField] float moveSpeed;
     [SerializeField] float moveCd;
+    [SerializeField] GameObject emp_cobraBlocoPai;
     [SerializeField] GameObject prefab_obj_cobraBloco;
-    [SerializeField] GameObject[] obj_bloco;
+    [SerializeField] GameObject[] obj_cobraBloco;
     Vector2 cobraPos;
     [SerializeField] Vector2[] blocoPos;
     [SerializeField] float[] blocoAndarPodeTempo;
     [SerializeField] int blocoTamanho;
     [SerializeField] float tempo;
     [SerializeField] int comidaGanho;
-    [Space]
-    [SerializeField] Text txt_resultado;
 
     void Start()
     {
@@ -81,14 +78,16 @@ public class Script_cobraTudo : MonoBehaviour
 
         for (int i = 0; i < blocoTamanho; i++)
         {
-            if (obj_bloco != null)
+            if (obj_cobraBloco != null)
             {
-                blocoPos[i] = obj_bloco[i].transform.position;
+                blocoPos[i] = obj_cobraBloco[i].transform.position;
 
                 if (tempo >= blocoAndarPodeTempo[i])
                 {
-                    if (i == 0) obj_bloco[i].transform.position = cobraPos;
-                    else obj_bloco[i].transform.position = blocoPos[i - 1];
+                    if (i == 0) obj_cobraBloco[i].transform.position = cobraPos;
+                    else obj_cobraBloco[i].transform.position = blocoPos[i - 1];
+
+                    obj_cobraBloco[i].GetComponent<BoxCollider2D>().enabled = true;
                 }
             }
         }
@@ -104,7 +103,8 @@ public class Script_cobraTudo : MonoBehaviour
         {
             for (int i = 0; i < comidaGanho; i++)
             {
-                obj_bloco[blocoTamanho] = Instantiate(prefab_obj_cobraBloco, transform.position, Quaternion.identity);
+                obj_cobraBloco[blocoTamanho] = Instantiate(prefab_obj_cobraBloco, transform.position, Quaternion.identity);
+                obj_cobraBloco[blocoTamanho].transform.parent = emp_cobraBlocoPai.transform;
                 blocoAndarPodeTempo[blocoTamanho] = tempo + blocoTamanho + 1;
 
                 blocoTamanho++;
@@ -115,15 +115,10 @@ public class Script_cobraTudo : MonoBehaviour
 
             if (blocoTamanho == 664) Debug.Log("ganhou");
         }
-    }
 
-    public void Perdeu()
-    {
-        txt_resultado.text = "You Lose!";
-    }
-
-    public void SceneRestart()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        if (collision.CompareTag("Bloco"))
+        {
+            obj_adm.GetComponent<Script_admGameTudo>().Perdeu();
+        }
     }
 }
