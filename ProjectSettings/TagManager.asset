@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Comida
   - Bloco
+  - Parede
   layers:
   - Default
   - TransparentFX

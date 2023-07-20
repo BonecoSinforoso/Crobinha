@@ -54,6 +54,6 @@ public class Script_admGameTudo : MonoBehaviour
     public void SceneRestart()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);        
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

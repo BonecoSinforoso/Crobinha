@@ -120,5 +120,10 @@ public class Script_cobraTudo : MonoBehaviour
         {
             obj_adm.GetComponent<Script_admGameTudo>().Perdeu();
         }
+
+        if (collision.CompareTag("Parede"))
+        {
+            obj_adm.GetComponent<Script_admGameTudo>().Perdeu();
+        }
     }
 }
