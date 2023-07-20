@@ -19,15 +19,14 @@ public class Script_admGameTudo : MonoBehaviour
         //Teste();
     }
 
-    void Update()
-    {
-
-    }
-
     public void ObjComidaSpawn()
     {
         Vector2 _pos = new Vector2(Random.Range(0, 35) * 0.5f - 8.5f, Random.Range(0, 19) * 0.5f - 4.5f);
-        Instantiate(prefab_obj_comida, _pos, Quaternion.identity);
+
+        RaycastHit2D _hit = Physics2D.Raycast(_pos, Vector2.zero);
+
+        if (!_hit.collider) Instantiate(prefab_obj_comida, _pos, Quaternion.identity);
+        else ObjComidaSpawn();
     }
 
     void Teste()
@@ -54,6 +53,7 @@ public class Script_admGameTudo : MonoBehaviour
 
     public void SceneRestart()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        Time.timeScale = 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);        
     }
 }
