@@ -7,6 +7,7 @@ public class Script_admGameTudo : MonoBehaviour
     [SerializeField] GameObject prefab_obj_comida;
     [Space]
     [SerializeField] Button btn_restart;
+    [SerializeField] Button btn_menu;
     [SerializeField] Text txt_resultado;
     [SerializeField] Image img_painel;
 
@@ -51,9 +52,26 @@ public class Script_admGameTudo : MonoBehaviour
         img_painel.gameObject.SetActive(true);
     }
 
+    public void Ganhou()
+    {
+        Time.timeScale = 0;
+        txt_resultado.gameObject.SetActive(true);
+        txt_resultado.text = "You Win!";
+
+        btn_restart.gameObject.SetActive(true);
+
+        img_painel.gameObject.SetActive(true);
+    }
+
     public void SceneRestart()
     {
         Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void SceneChange()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene("Scene_menu");
     }
 }

@@ -16,10 +16,17 @@ public class Script_cobraTudo : MonoBehaviour
     [SerializeField] int blocoTamanho;
     [SerializeField] float tempo;
     [SerializeField] int comidaGanho;
+    [Space]
+    [SerializeField] AudioClip[] aud_coleta;
+    [SerializeField] AudioClip aud_morte;
+    AudioSource audioSource;
 
     void Start()
     {
         obj_adm = GameObject.Find("obj_adm");
+        audioSource = GetComponent<AudioSource>();
+        direcao = Random.Range(0, 4);
+
         Invoke("Move", moveCd);
     }
 
@@ -112,6 +119,7 @@ public class Script_cobraTudo : MonoBehaviour
 
             Destroy(collision.gameObject);
             obj_adm.GetComponent<Script_admGameTudo>().ObjComidaSpawn();
+            audioSource.PlayOneShot(aud_coleta[Random.Range(0, aud_coleta.Length - 1)]);
 
             if (blocoTamanho == 664) Debug.Log("ganhou");
         }
@@ -119,11 +127,15 @@ public class Script_cobraTudo : MonoBehaviour
         if (collision.CompareTag("Bloco"))
         {
             obj_adm.GetComponent<Script_admGameTudo>().Perdeu();
+
+            audioSource.PlayOneShot(aud_morte);
         }
 
         if (collision.CompareTag("Parede"))
         {
             obj_adm.GetComponent<Script_admGameTudo>().Perdeu();
+
+            audioSource.PlayOneShot(aud_morte);
         }
     }
 }
