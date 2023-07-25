@@ -121,7 +121,7 @@ public class Script_cobraTudo : MonoBehaviour
             obj_adm.GetComponent<Script_admGameTudo>().ObjComidaSpawn();
             audioSource.PlayOneShot(aud_coleta[Random.Range(0, aud_coleta.Length - 1)]);
 
-            if (blocoTamanho == 664) Debug.Log("ganhou");
+            if (blocoTamanho == 664) obj_adm.GetComponent<Script_admGameTudo>().Ganhou();
         }
 
         if (collision.CompareTag("Bloco"))

@@ -48,8 +48,11 @@ public class Script_admGameTudo : MonoBehaviour
         txt_resultado.text = "You Lose!";
 
         btn_restart.gameObject.SetActive(true);
+        btn_menu.gameObject.SetActive(true);
 
         img_painel.gameObject.SetActive(true);
+
+        Debug.Log("perdeu");
     }
 
     public void Ganhou()
@@ -59,8 +62,11 @@ public class Script_admGameTudo : MonoBehaviour
         txt_resultado.text = "You Win!";
 
         btn_restart.gameObject.SetActive(true);
+        btn_menu.gameObject.SetActive(true);
 
         img_painel.gameObject.SetActive(true);
+
+        Debug.Log("ganhou");
     }
 
     public void SceneRestart()
