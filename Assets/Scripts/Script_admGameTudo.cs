@@ -11,6 +11,8 @@ public class Script_admGameTudo : MonoBehaviour
     [SerializeField] Text txt_resultado;
     [SerializeField] Image img_painel;
 
+    bool pause = false;
+
     void Start()
     {
         Application.targetFrameRate = 60;
@@ -18,6 +20,38 @@ public class Script_admGameTudo : MonoBehaviour
         ObjComidaSpawn();
 
         //Teste();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Escape))
+        {
+            pause = !pause;
+
+            if (pause)
+            {
+                Time.timeScale = 0;
+
+                txt_resultado.gameObject.SetActive(true);
+                txt_resultado.text = "Pause";
+
+                btn_restart.gameObject.SetActive(true);
+                btn_menu.gameObject.SetActive(true);
+
+                img_painel.gameObject.SetActive(true);
+            }
+            else
+            {
+                Time.timeScale = 1;
+
+                txt_resultado.gameObject.SetActive(false);
+
+                btn_restart.gameObject.SetActive(false);
+                btn_menu.gameObject.SetActive(false);
+
+                img_painel.gameObject.SetActive(false);
+            }
+        }
     }
 
     public void ObjComidaSpawn()

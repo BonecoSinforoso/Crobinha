@@ -16,4 +16,9 @@ public class Script_admMenuTudo : MonoBehaviour
     {
         SceneManager.LoadScene("Scene_game");
     }
+
+    public void GameExit()
+    {
+        Application.Quit();
+    }
 }
